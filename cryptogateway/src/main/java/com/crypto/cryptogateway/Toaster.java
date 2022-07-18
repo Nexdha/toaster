@@ -6,18 +6,44 @@ import android.content.Intent;
 import android.widget.Toast;
 
 public class Toaster {
-    String clientName, clientAmount;
+    String clientName, clientAmount, clientEmail, clientPhone, clientApiKey, clientTransaction;
 
-    public void toast(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+
+    public void setAmount(String amount) {
+        this.clientAmount = amount;
     }
 
     public void setName(String name) {
         this.clientName = name;
     }
 
-    public void setAmount(String amount) {
-        this.clientAmount = amount;
+    public void setEmail(String email) {
+        this.clientEmail = email;
+    }
+
+    public void setApiKey(String key) {
+        this.clientApiKey = key;
+    }
+
+    public void setOrderId(String orderId) {
+        this.clientTransaction = orderId;
+    }
+
+    public void setPhone(String phone) {
+        this.clientPhone = phone;
+    }
+
+
+    public String getClientEmail() {
+        return clientEmail;
+    }
+
+    public String getClientApiKey() {
+        return clientApiKey;
+    }
+
+    public String getClientTransaction() {
+        return clientTransaction;
     }
 
     public String getClientName() {
@@ -28,5 +54,8 @@ public class Toaster {
         return clientAmount;
     }
 
+    public String getClientPhone() {
+        return clientPhone;
+    }
 
 }

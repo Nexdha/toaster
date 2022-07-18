@@ -25,8 +25,15 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.ClientError;
+import com.android.volley.NetworkError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -43,6 +50,7 @@ public class PaymentGatewayActivity extends AppCompatActivity {
 
     WebView webView;
     ProgressBar progressBar;
+    String name, amount, email, apiKey, orderId, hash, phone;
 
     static {
         System.loadLibrary("Keys");
@@ -58,6 +66,17 @@ public class PaymentGatewayActivity extends AppCompatActivity {
         System.out.println(getNativeKey1());
         webView = this.findViewById(R.id.web_view);
         progressBar = this.findViewById(R.id.progress_bar);
+        HashMap hashMap = (HashMap) this.getIntent().getSerializableExtra("POST_PARAMS");
+        name = (String) hashMap.get("Name");
+        amount = (String) hashMap.get("Amount");
+        email = (String) hashMap.get("Email");
+        apiKey = (String) hashMap.get("ApiKey");
+        orderId = (String) hashMap.get("OrderId");
+        hash = (String) hashMap.get("Hash");
+        phone = (String) hashMap.get("Phone");
+        loadUrl();
+
+
         try {
             WebView.setWebContentsDebuggingEnabled(false);
             this.webView.setWebViewClient(new WebViewClient() {
@@ -65,16 +84,14 @@ public class PaymentGatewayActivity extends AppCompatActivity {
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
                     PaymentGatewayActivity.this.progressBar.setVisibility(View.GONE);
-                    //new Handler().postDelayed(() -> loadUrl(), 3000);
-                }
 
+                }
 
 
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
                     PaymentGatewayActivity.this.progressBar.setVisibility(View.GONE);
-                    //new Handler().postDelayed(() -> loadUrl(), 3000);
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(intent);
                     return true;
@@ -83,7 +100,6 @@ public class PaymentGatewayActivity extends AppCompatActivity {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                     PaymentGatewayActivity.this.progressBar.setVisibility(View.GONE);
-                   // new Handler().postDelayed(() -> loadUrl(), 3000);
                     return super.shouldOverrideUrlLoading(view, request);
 
                 }
@@ -99,12 +115,10 @@ public class PaymentGatewayActivity extends AppCompatActivity {
                 public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                     super.onReceivedError(view, request, error);
                     progressBar.setVisibility(View.GONE);
-                    //new Handler().postDelayed(() -> loadUrl(), 3000);
                 }
 
             });
 
-            webView.loadUrl("https://pred.nbicoin.com/api/ecom_coinselect");
 
             webView.setWebChromeClient(new WebChromeClient() {
                 @Override
@@ -131,25 +145,54 @@ public class PaymentGatewayActivity extends AppCompatActivity {
         }
     }
 
+
+
     private void loadUrl() {
-        StringRequest request = new StringRequest(Request.Method.POST, "https://pred.nbicoin.com/api/Poli", response -> {
+        StringRequest request = new StringRequest(Request.Method.POST, "https://pred.nbicoin.com/api/sdk_transfer", response -> {
             try {
                 JSONObject json = new JSONObject(response);
-                Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
-                Intent data = new Intent();
+                String url = json.getString("url");
+                webView.loadUrl(url);
+                /*Intent data = new Intent();
                 data.putExtra("PAYMENT_RESPONSE", response);
                 PaymentGatewayActivity.this.setResult(-1, data);
-                PaymentGatewayActivity.this.finish();
+                PaymentGatewayActivity.this.finish(); */
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        },
-                error -> Log.e("error is ", "" + error)) {
-
-
+        }, error -> {
+            System.out.println(error instanceof ClientError);
+            String message = "";
+            if (error instanceof NetworkError) {
+                message = "Cannot connect to internet......please check your internet connection";
+            } else if (error instanceof ServerError) {
+                message = "";
+            } else if (error instanceof AuthFailureError) {
+                message = "Cannot connect to internet......please check your internet connection";
+            } else if (error instanceof ParseError) {
+                message = "Cannot connect to internet......please check your internet connection";
+            } else if (error instanceof TimeoutError) {
+                message = "Connection Timedout......please check your internet connection";
+            }
+            if (!message.isEmpty()) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", name);
+                params.put("email", email);
+                params.put("phone", phone);
+                params.put("amount", amount);
+                params.put("api_key", apiKey);
+                params.put("transaction_id", orderId);
+                params.put("hash", hash);
+                return params;
+            }
         };
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        request.setShouldCache(false);
         queue.add(request);
 
 

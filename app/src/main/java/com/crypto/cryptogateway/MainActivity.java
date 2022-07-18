@@ -25,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
             Toaster toaster = new Toaster();
             toaster.setName("Deepak");
             toaster.setAmount("200");
+            toaster.setEmail("deepak@gmail.com");
+            toaster.setPhone("0957605768");
+            toaster.setAmount("200");
+            toaster.setApiKey("4cae0046204c42559d4d164b0f9c1234");
+            toaster.setOrderId("510");
             WebViewActivity webViewActivity = new WebViewActivity(toaster, this);
             webViewActivity.initialPaymentProcess();
         });
