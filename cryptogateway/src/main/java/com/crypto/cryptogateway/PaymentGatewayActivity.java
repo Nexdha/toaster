@@ -52,18 +52,11 @@ public class PaymentGatewayActivity extends AppCompatActivity {
     ProgressBar progressBar;
     String name, amount, email, apiKey, orderId, hash, phone;
 
-    static {
-        System.loadLibrary("Keys");
-    }
-
-    public static native String getNativeKey1();
-
     @SuppressLint({"JavascriptInterface", "SetJavaScriptEnabled"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_gateway);
-        System.out.println(getNativeKey1());
         webView = this.findViewById(R.id.web_view);
         progressBar = this.findViewById(R.id.progress_bar);
         HashMap hashMap = (HashMap) this.getIntent().getSerializableExtra("POST_PARAMS");
@@ -125,6 +118,13 @@ public class PaymentGatewayActivity extends AppCompatActivity {
                 public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
                     android.util.Log.d("WebView", consoleMessage.message());
                     System.out.println(consoleMessage.message());
+                    String hash = consoleMessage.message();
+                    if (hash.contains("transaction_hash")) {
+                        Intent data = new Intent();
+                        data.putExtra("PAYMENT_RESPONSE", hash);
+                        PaymentGatewayActivity.this.setResult(-1, data);
+                        PaymentGatewayActivity.this.finish();
+                    }
                     return true;
                 }
             });
@@ -146,17 +146,13 @@ public class PaymentGatewayActivity extends AppCompatActivity {
     }
 
 
-
     private void loadUrl() {
         StringRequest request = new StringRequest(Request.Method.POST, "https://pred.nbicoin.com/api/sdk_transfer", response -> {
             try {
                 JSONObject json = new JSONObject(response);
                 String url = json.getString("url");
                 webView.loadUrl(url);
-                /*Intent data = new Intent();
-                data.putExtra("PAYMENT_RESPONSE", response);
-                PaymentGatewayActivity.this.setResult(-1, data);
-                PaymentGatewayActivity.this.finish(); */
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
