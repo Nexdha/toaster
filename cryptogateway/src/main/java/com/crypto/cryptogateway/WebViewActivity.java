@@ -19,22 +19,22 @@ public class WebViewActivity {
                 TextUtils.isEmpty(toaster.getClientTransaction()) & TextUtils.isEmpty(toaster.getClientPhone())) {
             throw new RuntimeException("Oops something went wrong");
         } else {
-            this.params.put("Name", toaster.getClientName());
-            this.params.put("Amount", toaster.getClientAmount());
-            this.params.put("Email", toaster.getClientEmail());
-            this.params.put("ApiKey", toaster.getClientApiKey());
-            this.params.put("OrderId", toaster.getClientTransaction());
-            this.params.put("Phone", toaster.getClientPhone());
-            this.params.put("Hash", "ABCD");
+            this.params.put(Constant.NAME, toaster.getClientName());
+            this.params.put(Constant.AMOUNT, toaster.getClientAmount());
+            this.params.put(Constant.EMAIL, toaster.getClientEmail());
+            this.params.put(Constant.API_KEY, toaster.getClientApiKey());
+            this.params.put(Constant.ORDER_ID, toaster.getClientTransaction());
+            this.params.put(Constant.PHONE, toaster.getClientPhone());
+            this.params.put(Constant.HASH, "ABCD");
 
         }
     }
 
     public void initialPaymentProcess() {
         Intent startActivity = new Intent(this.context, PaymentGatewayActivity.class);
-        startActivity.putExtra("POST_PARAMS", this.params);
+        startActivity.putExtra(Constant.POST_PARAMS, this.params);
         startActivity.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-        this.context.startActivityForResult(startActivity, 11111);
+        this.context.startActivityForResult(startActivity, Constant.REQUEST_CODE);
 
     }
 }

@@ -52,21 +52,21 @@ public class PaymentGatewayActivity extends AppCompatActivity {
     ProgressBar progressBar;
     String name, amount, email, apiKey, orderId, hash, phone;
 
-    @SuppressLint({"JavascriptInterface", "SetJavaScriptEnabled"})
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_gateway);
         webView = this.findViewById(R.id.web_view);
         progressBar = this.findViewById(R.id.progress_bar);
-        HashMap hashMap = (HashMap) this.getIntent().getSerializableExtra("POST_PARAMS");
-        name = (String) hashMap.get("Name");
-        amount = (String) hashMap.get("Amount");
-        email = (String) hashMap.get("Email");
-        apiKey = (String) hashMap.get("ApiKey");
-        orderId = (String) hashMap.get("OrderId");
-        hash = (String) hashMap.get("Hash");
-        phone = (String) hashMap.get("Phone");
+        HashMap hashMap = (HashMap) this.getIntent().getSerializableExtra(Constant.POST_PARAMS);
+        name = (String) hashMap.get(Constant.NAME);
+        amount = (String) hashMap.get(Constant.AMOUNT);
+        email = (String) hashMap.get(Constant.EMAIL);
+        apiKey = (String) hashMap.get(Constant.API_KEY);
+        orderId = (String) hashMap.get(Constant.ORDER_ID);
+        hash = (String) hashMap.get(Constant.HASH);
+        phone = (String) hashMap.get(Constant.PHONE);
         loadUrl();
 
 
@@ -80,10 +80,8 @@ public class PaymentGatewayActivity extends AppCompatActivity {
 
                 }
 
-
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
                     PaymentGatewayActivity.this.progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(intent);
@@ -119,9 +117,9 @@ public class PaymentGatewayActivity extends AppCompatActivity {
                     android.util.Log.d("WebView", consoleMessage.message());
                     System.out.println(consoleMessage.message());
                     String hash = consoleMessage.message();
-                    if (hash.contains("transaction_hash")) {
+                    if (hash.contains(Constant.TRANSACTION_HASH)) {
                         Intent data = new Intent();
-                        data.putExtra("PAYMENT_RESPONSE", hash);
+                        data.putExtra(Constant.PAYMENT_RESPONSE, hash);
                         PaymentGatewayActivity.this.setResult(-1, data);
                         PaymentGatewayActivity.this.finish();
                     }
@@ -131,7 +129,6 @@ public class PaymentGatewayActivity extends AppCompatActivity {
 
             WebSettings webSettings = this.webView.getSettings();
             webSettings.setJavaScriptEnabled(true);
-            this.webView.addJavascriptInterface(new PaymentGatewayActivity.MyJavaScriptInterface(this), "Android");
             webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
             webSettings.setDomStorageEnabled(true);
 
@@ -147,10 +144,10 @@ public class PaymentGatewayActivity extends AppCompatActivity {
 
 
     private void loadUrl() {
-        StringRequest request = new StringRequest(Request.Method.POST, "https://pred.nbicoin.com/api/sdk_transfer", response -> {
+        StringRequest request = new StringRequest(Request.Method.POST, Constant.POST_URL, response -> {
             try {
                 JSONObject json = new JSONObject(response);
-                String url = json.getString("url");
+                String url = json.getString(Constant.POST_RESPONSE);
                 webView.loadUrl(url);
 
 
@@ -161,15 +158,15 @@ public class PaymentGatewayActivity extends AppCompatActivity {
             System.out.println(error instanceof ClientError);
             String message = "";
             if (error instanceof NetworkError) {
-                message = "Cannot connect to internet......please check your internet connection";
+                message = Constant.ERROR;
             } else if (error instanceof ServerError) {
-                message = "";
+                message = Constant.ERROR;
             } else if (error instanceof AuthFailureError) {
-                message = "Cannot connect to internet......please check your internet connection";
+                message = Constant.ERROR;
             } else if (error instanceof ParseError) {
-                message = "Cannot connect to internet......please check your internet connection";
+                message = Constant.ERROR;
             } else if (error instanceof TimeoutError) {
-                message = "Connection Timedout......please check your internet connection";
+                message = Constant.ERROR;
             }
             if (!message.isEmpty()) {
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
@@ -177,13 +174,13 @@ public class PaymentGatewayActivity extends AppCompatActivity {
         }) {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("name", name);
-                params.put("email", email);
-                params.put("phone", phone);
-                params.put("amount", amount);
-                params.put("api_key", apiKey);
-                params.put("transaction_id", orderId);
-                params.put("hash", hash);
+                params.put(Constant.POST_NAME, name);
+                params.put(Constant.POST_EMAIL, email);
+                params.put(Constant.POST_PHONE, phone);
+                params.put(Constant.POST_AMOUNT, amount);
+                params.put(Constant.POST_API_KEY, apiKey);
+                params.put(Constant.POST_ORDER_ID, orderId);
+                params.put(Constant.POST_HASH, hash);
                 return params;
             }
         };
@@ -192,36 +189,5 @@ public class PaymentGatewayActivity extends AppCompatActivity {
         queue.add(request);
 
 
-    }
-
-    public class MyJavaScriptInterface {
-        Context context;
-
-        MyJavaScriptInterface(Context context) {
-            this.context = context;
-
-        }
-
-        @JavascriptInterface
-        public void showHTML(String html, String url) {
-            Log.i("log", "showHTML: " + url + " : " + html);
-        }
-
-        @JavascriptInterface
-        public void paymentResponse(String response) {
-            try {
-
-                Log.d("ResponseJSON: ", response);
-                if (response.equals("null")) {
-                    Intent data = new Intent();
-                    data.putExtra("PAYMENT_RESPONSE", "hai");
-                    PaymentGatewayActivity.this.setResult(-1, data);
-                    PaymentGatewayActivity.this.finish();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
