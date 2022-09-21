@@ -17,6 +17,7 @@ import com.crypto.cryptogateway.R;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                                 String n_order_id = respontran.getString("transactionid");
                                 System.out.println("this is the trrrrrrrrrrrrrrrrrrrrrransaaaaaaaaaaaaaction id");
                                 System.out.println(n_order_id);
-
 
                                 Toaster toaster = new Toaster();
                                 toaster.setName("Deepak");
@@ -99,12 +99,30 @@ public class MainActivity extends AppCompatActivity {
         if (data != null) {
             if (resultCode == Activity.RESULT_OK) {
                 String response = data.getStringExtra("PAYMENT_RESPONSE");
-                System.out.println("Response: " + response);
-                Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
-                //Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                if (response.equals(Constant.CANCELLED)) {
+                    Toast.makeText(this, "Transaction cancelled", Toast.LENGTH_SHORT).show();
+                } else {
+                    System.out.println("Response: " + response);
+                    Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                }
             }
 
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage("Cancel Transaction");
+        builder.setTitle("Do you really want to cancel the transaction?");
+        builder.setPositiveButton("Ok", (dialogInterface, i) -> {
+            super.onBackPressed();
+
+        });
+        builder.setNegativeButton("Cancel", (dialogInterface, i) -> {
+
+        });
+        builder.show();
     }
 }

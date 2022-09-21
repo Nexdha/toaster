@@ -1,6 +1,6 @@
 package com.crypto.cryptogateway;
 
-public class Constant {
+public class SCConstant {
     public static final String POST_PARAMS = "POST_PARAMS";
     public static final String NAME = "Name";
     public static final String AMOUNT = "Amount";
@@ -17,11 +17,15 @@ public class Constant {
     public static final String POST_EMAIL = "email";
     public static final String POST_API_KEY = "api_key";
     public static final String POST_ORDER_ID = "transaction_id";
+    public static final String CANCELLED = "Transaction cancelled";
+    public static final String ALERT_TITLE = "Cancel Transaction";
+    public static final String ALERT_MESSAGE = "Do you really want to cancel the transaction?";
     public static final String POST_PHONE = "phone";
     public static final String POST_HASH = "hash";
     public static final String ERROR = "Cannot connect to internet......please check your internet connection";
     public static final String POST_RESPONSE = "url";
     public static final String POST_URL = "https://snocrane.nbicoin.com/api/sdk_transfer";
-
+    public static final String OK = "Yes";
+    public static final String CANCEL = "No";
 
 }

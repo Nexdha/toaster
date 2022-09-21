@@ -5,13 +5,15 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_down_24.xml" value="0.23" />
         <entry key="app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.23" />
+        <entry key="app/src/main/res/drawable/ic_baseline_swap_horizontal_circle_24.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/ic_baseline_swap_vert_24.xml" value="0.2085" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.13697916666666668" />
         <entry key="cryptogateway/src/main/res/layout/activity_payment_gateway.xml" value="0.2682291666666667" />
         <entry key="cryptogateway/src/main/res/layout/activity_web_view.xml" value="0.25" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_16_PREVIEW" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -5,8 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-public class Toaster {
-    String clientName, clientAmount, clientEmail, clientPhone, clientApiKey, clientTransaction;
+public class SCParams {
+    String clientName;
+    String clientAmount;
+    String clientEmail;
+    String clientPhone;
+    String clientApiKey;
+    String clientTransaction;
+    String clientHash;
 
 
     public void setAmount(String amount) {
@@ -33,6 +39,10 @@ public class Toaster {
         this.clientPhone = phone;
     }
 
+    public void setClientHash(String clientHash) {
+        this.clientHash = clientHash;
+    }
+
 
     public String getClientEmail() {
         return clientEmail;
@@ -56,6 +66,10 @@ public class Toaster {
 
     public String getClientPhone() {
         return clientPhone;
+    }
+
+    public String getClientHash() {
+        return clientHash;
     }
 
 }

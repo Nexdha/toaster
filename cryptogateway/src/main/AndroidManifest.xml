@@ -9,7 +9,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".PaymentGatewayActivity"
+            android:name=".SCPaymentGateway"
             android:exported="false" />
     </application>
 
