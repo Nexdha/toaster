@@ -24,7 +24,7 @@ public class SCConstant {
     public static final String POST_HASH = "hash";
     public static final String ERROR = "Cannot connect to internet......please check your internet connection";
     public static final String POST_RESPONSE = "url";
-    public static final String POST_URL = "https://snocrane.nbicoin.com/api/sdk_transfer";
+    public static final String POST_URL = "https://ssan.nexdha.com/api/sdk_transfer_react";
     public static final String OK = "Yes";
     public static final String CANCEL = "No";
 

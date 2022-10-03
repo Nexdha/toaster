@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         Button button = findViewById(R.id.gateway_btn);
         button.setOnClickListener(view -> {
             {
-
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://pro.nexdha.com/api/order_id",
                         response -> {
                             try {
@@ -60,26 +59,23 @@ public class MainActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String message = "";
+                        }, error -> {
+                            String message = "";
 
-                        if (error instanceof NetworkError) {
-                            message = "cannot connect";
-                        } else if (error instanceof AuthFailureError) {
-                            message = "";
-                        } else if (error instanceof NoConnectionError) {
-                            message = "cannot connect";
-                        } else if (error instanceof ParseError) {
-                            message = "Connection Timedout";
-                        }
-                        if (!message.isEmpty()) {
-                            Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
+                            if (error instanceof NetworkError) {
+                                message = "cannot connect";
+                            } else if (error instanceof AuthFailureError) {
+                                message = "";
+                            } else if (error instanceof NoConnectionError) {
+                                message = "cannot connect";
+                            } else if (error instanceof ParseError) {
+                                message = "Connection Timedout";
+                            }
+                            if (!message.isEmpty()) {
+                                Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
 
-                        }
-                    }
-                });
+                            }
+                        });
 
                 RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
                 stringRequest.setShouldCache(false);
