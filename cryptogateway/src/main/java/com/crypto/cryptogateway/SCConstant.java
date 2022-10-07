@@ -9,6 +9,7 @@ public class SCConstant {
     public static final String ORDER_ID = "OrderId";
     public static final String PHONE = "Phone";
     public static final String HASH = "Hash";
+    public static final String OS = "Os";
     public static final String PAYMENT_RESPONSE = "PAYMENT_RESPONSE";
     public static final int REQUEST_CODE = 11111;
     public static final String TRANSACTION_HASH = "transaction_hash";
@@ -21,6 +22,7 @@ public class SCConstant {
     public static final String ALERT_TITLE = "Cancel Transaction";
     public static final String ALERT_MESSAGE = "Do you really want to cancel the transaction?";
     public static final String POST_PHONE = "phone";
+    public static final String POST_OS = "ostype";
     public static final String POST_HASH = "hash";
     public static final String ERROR = "Cannot connect to internet......please check your internet connection";
     public static final String POST_RESPONSE = "url";

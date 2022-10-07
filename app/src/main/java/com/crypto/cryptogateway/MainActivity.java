@@ -44,17 +44,6 @@ public class MainActivity extends AppCompatActivity {
                                 System.out.println("this is the trrrrrrrrrrrrrrrrrrrrrransaaaaaaaaaaaaaction id");
                                 System.out.println(n_order_id);
 
-                                Toaster toaster = new Toaster();
-                                toaster.setName("Deepak");
-                                toaster.setAmount("200");
-                                toaster.setEmail("deepak@gmail.com");
-                                toaster.setPhone("0957605768");
-                                toaster.setAmount("200");
-                                toaster.setApiKey("4cae0046204c42559d4d164b0f9c1234");
-                                toaster.setOrderId(n_order_id);
-                                WebViewActivity webViewActivity = new WebViewActivity(toaster, this);
-                                webViewActivity.initialPaymentProcess();
-
 
                             } catch (JSONException e) {
                                 e.printStackTrace();

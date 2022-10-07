@@ -17,7 +17,7 @@ public class SCPaymentValidation {
         if (TextUtils.isEmpty(scParams.getClientName()) && TextUtils.isEmpty(scParams.getClientAmount()) &&
                 TextUtils.isEmpty(scParams.getClientEmail()) && TextUtils.isEmpty(scParams.getClientApiKey()) &&
                 TextUtils.isEmpty(scParams.getClientTransaction()) && TextUtils.isEmpty(scParams.getClientPhone())
-                &&TextUtils.isEmpty(scParams.getClientHash())) {
+                && TextUtils.isEmpty(scParams.getClientHash()) && TextUtils.isEmpty(scParams.getClientOs())) {
             throw new RuntimeException("Oops something went wrong");
         } else {
             this.params.put(SCConstant.NAME, scParams.getClientName());
@@ -27,6 +27,7 @@ public class SCPaymentValidation {
             this.params.put(SCConstant.ORDER_ID, scParams.getClientTransaction());
             this.params.put(SCConstant.PHONE, scParams.getClientPhone());
             this.params.put(SCConstant.HASH, scParams.getClientHash());
+            this.params.put(SCConstant.OS, scParams.getClientOs());
         }
     }
 

@@ -42,7 +42,7 @@ public class SCPaymentGateway extends AppCompatActivity {
 
     WebView webView;
     ProgressBar progressBar;
-    String name, amount, email, apiKey, orderId, hash, phone;
+    String name, amount, email, apiKey, orderId, hash, phone, os;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -59,6 +59,7 @@ public class SCPaymentGateway extends AppCompatActivity {
         orderId = (String) hashMap.get(SCConstant.ORDER_ID);
         hash = (String) hashMap.get(SCConstant.HASH);
         phone = (String) hashMap.get(SCConstant.PHONE);
+        os = (String) hashMap.get(SCConstant.OS);
         loadUrl();
 
 
@@ -198,6 +199,7 @@ public class SCPaymentGateway extends AppCompatActivity {
                 params.put(SCConstant.POST_API_KEY, apiKey);
                 params.put(SCConstant.POST_ORDER_ID, orderId);
                 params.put(SCConstant.POST_HASH, hash);
+                params.put(SCConstant.POST_OS, os);
                 return params;
             }
         };

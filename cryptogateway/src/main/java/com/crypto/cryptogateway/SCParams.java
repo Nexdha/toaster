@@ -13,6 +13,7 @@ public class SCParams {
     String clientApiKey;
     String clientTransaction;
     String clientHash;
+    String clientOs;
 
 
     public void setAmount(String amount) {
@@ -43,6 +44,10 @@ public class SCParams {
         this.clientHash = clientHash;
     }
 
+    public void setClientOs(String clientOs) {
+        this.clientOs = clientOs;
+    }
+
 
     public String getClientEmail() {
         return clientEmail;
@@ -70,6 +75,10 @@ public class SCParams {
 
     public String getClientHash() {
         return clientHash;
+    }
+
+    public String getClientOs() {
+        return clientOs;
     }
 
 }
